@@ -1,0 +1,32 @@
+\section{Introduction}
+
+Distributed computing environments have become the platform of choice for
+executing large scale scientific applications because they afford researchers
+the ability to execute such applications in a fraction of the amount of time it
+would take  to execute on a single machine. A "fraction of time" in this context
+could mean an application makespan of months instead of a year assuming
+hardware resources are utilized in a clever manner.  This paper focuses on one
+specific type of scientific application known as a \textit{parameter sweep
+application}, where the entire application is composed of independent tasks
+which can require a number of input files  \cite{Casanova-param-sweep-00},
+\cite{Casanova-apples-param-sweep-00}. Tasks can require a varying amounts of
+computation to complete and each task may use one or more files also used by
+other tasks within the application. In order to execute a parameter sweep
+application on a set of distributed computing resources, one must specify a
+schedule with the following information: 1. when and where to send what file, 2.
+when and where to execute what task. This decision making/scheduling process
+has been proven to be NP-complete in many cases
+\cite{Giersch-task-sharing-files-04}. Heuristic based, list scheduling
+approaches such as \textit{MaxMin, MinMin} are some
+efficient and effective ways to schedule file transfers and assign tasks to
+compute hosts \cite{Casanova-param-sweep-00},
+\cite{Casanova-apples-param-sweep-00}, \cite{Giersch-task-sharing-files-04}. Previous
+research has suggested that using genetic algorithms as a viable meta-heuristic
+for the task scheduling problem \cite{wang-task-matching-97} ,
+\cite{wu-incremental-genetic-04} where inter task dependencies exist. The purpose
+of this project is to benchmark a schedule created by a genetic algorithm (GA)
+and compare the schedule's performance with the afformentioned \textit{MaxMin and MinMin}
+heuristics. To accomplish this we use WRENCH, a workflow management simulation
+framework \cite{casanova-works-2018}, to simulate a parameter sweep application,
+the cyberinfrastructure it is to be executed on, and the scheduling logic necessary
+to map portions of the application onto compute and storage resources.
