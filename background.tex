@@ -1,10 +1,58 @@
-\section{background}
-\label{sec:background}
+\section{background} \label{sec:background}
 
-\subsection{Subsection 1}
+\subsection{Parameter Sweep Applications}
 
-This is my background section 1
+Scientific applications are often represented as directed acyclic graphs (DAGs)
+where nodes represent computational tasks and input/output files. Links
+generally will start at a file and extend to a task or vice versa. A link from a
+file to a task denotes that the task requires the file as an input. Conversely,
+a link from a task to a file signifies that the task creates that file as its
+output. Here we focus on one such scientific application known as a parameter
+sweep, where there are an independent set of files and tasks *Figure1. These
+files have links to tasks, thus forming a bipartite graph. Depending on the
+application, this bipartite graph may be arranged in a number of ways. For
+example, consider an application with 10 files and 20 tasks. And say, each file
+is used by a pair of tasks. This type of application may be easily parallelized
+as the graph can be partitioned into sections. However, in the case of irregular
+applications, the dependencies between files and tasks can make it difficult to
+effectively schedule it onto a set of hardware resources. Scheduling the
+execution on a single compute resource is trivial, but beyond that, the
+scheduling problem is shown to be NP-Complete in many cases
+\cite{Giersch-task-sharing-files-04}. Even when executed on modern day,
+massively parallel compute architectures, these scientific applications can be
+so large that they take days or months to execute.
 
-\subsection{Subsection 2}
+\subsection{Cyberinfrastructure}
 
-This is my background section 2
+The focus of this project is scheduling a parameter sweep application onto a
+cyberinfrastructure arranged in a \textit{master worker} structure *Figure2. The
+master node is connected to $k$ worker nodes, $W_i$ where $1 \leq i \leq k$.
+The links between master and worker nodes, $L_i$ where $1 \leq i \leq k$ have
+a bandwidth of $BW_i$, denoted in megabytes per second (MBps).
+Worker node $W_i$ has a compute speed $C_i$ denoted in floating point operations
+per second (flops).
+
+The master is responsible for assigning tasks to workers. Depending
+on the application graph, before the master can map a task to a worker,
+that tasks's required input files must be present at a persistant storage
+service located on that same worker. Here we restrict the master from
+sending more than one file at a time to a worker. Additionally the master
+may start up a task at any moment on a worker if the required files are present
+at the worker's persistant storage. Once a file has been sent from the master
+to some worker, that file will be retained by the worker and may be used by
+multiple tasks. Furthermore, the master may send the same file to multiple
+workers such that multiple tasks that require the same file may be executed
+in parallel by different workers.
+
+Consider a simple application comprised of a single task $t$ that requires
+some number of floating point operations to complete. $t$ also requires the set
+of $F$ files. The master will synchronously send each file in $F$ then instruct
+a worker to execute $t$. The expected makespan of this application can be
+modeled by the following equation:
+
+$$ makespan_{expected} = \frac{\sum\limits_{f \in F}size(f)}{BW_1} + \frac{flops(t)} {C_1} $$
+
+
+
+\subsection{List Scheduling Heuristics} \subsubsection{MaxMin}
+\subsubsection{MinMin}
