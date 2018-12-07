@@ -46,13 +46,43 @@ in parallel by different workers.
 
 Consider a simple application comprised of a single task $t$ that requires
 some number of floating point operations to complete. $t$ also requires the set
-of $F$ files. The master will synchronously send each file in $F$ then instruct
-a worker to execute $t$. The expected makespan of this application can be
-modeled by the following equation:
-
+of $F$ files. The master will synchronously send each file in $F$ to $W_1$
+over $L_1$ then instruct $W_1$ to execute $t$. The expected makespan of this
+application can be modeled by the following equation:make
 $$ makespan_{expected} = \frac{\sum\limits_{f \in F}size(f)}{BW_1} + \frac{flops(t)} {C_1} $$
+Modeling expected execution times is used by a number of scheduling heuristics
+including MaxMin and MinMin.
 
+\subsection{List Scheduling Heuristics}
 
+Two of the most common online list scheduling algorithms are MaxMin and MinMin.
+Both of these algorithms use estimated minimum completion times (MCT) of each
+task to determine which set of files and tasks to map to what resource by
+computing the following:
 
-\subsection{List Scheduling Heuristics} \subsubsection{MaxMin}
+\begin{algorithm}[H]
+  \caption{Estimate MCT}
+  \begin{algorithmic}
+    \STATE $estimated\_completion\_times = \emptyset$
+    \STATE $tasks = pending\_tasks$
+    \STATE $workers = all\_workers$
+    \FOR{$t \in tasks$}
+      \FOR{$w \in workers$}
+        \STATE $ect = estimate\_completion\_time(t, w)$
+        \STATE $estimated\_completion\_times.append((t, w, ect))$
+      \ENDFOR
+    \ENDFOR
+  \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{MaxMin}
+first selects the task with the maximum of all the minimum estimated completion time.
+Then, that task is assigned to the worker which will give it the largest estimated
+completion
+time out of all the possible workers it could have run on. This is to start long
+tasks early on slower resources such that smaller tasks can be executed faster
+on fast resources.
+
 \subsubsection{MinMin}
+selects the task, worker pair with the fastest estimated completion time and
+assigns that task to that worker.
