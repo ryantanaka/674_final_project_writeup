@@ -1,6 +1,6 @@
 \section{background} \label{sec:background}
 
-\subsection{Parameter Sweep Applications}
+\subsection*{Parameter Sweep Applications}
 
 Scientific applications are often represented as directed acyclic graphs (DAGs)
 where nodes represent computational tasks and input/output files. Links
@@ -22,7 +22,7 @@ scheduling problem is shown to be NP-Complete in many cases
 massively parallel compute architectures, these scientific applications can be
 so large that they take days or months to execute.
 
-\subsection{Cyberinfrastructure}
+\subsection*{Cyberinfrastructure}
 
 The focus of this project is scheduling a parameter sweep application onto a
 cyberinfrastructure arranged in a \textit{master worker} structure *Figure2. The
@@ -48,12 +48,12 @@ Consider a simple application comprised of a single task $t$ that requires
 some number of floating point operations to complete. $t$ also requires the set
 of $F$ files. The master will synchronously send each file in $F$ to $W_1$
 over $L_1$ then instruct $W_1$ to execute $t$. The expected makespan of this
-application can be modeled by the following equation:make
+particular application can be modeled by the following equation:
 $$ makespan_{expected} = \frac{\sum\limits_{f \in F}size(f)}{BW_1} + \frac{flops(t)} {C_1} $$
 Modeling expected execution times is used by a number of scheduling heuristics
 including MaxMin and MinMin.
 
-\subsection{List Scheduling Heuristics}
+\subsection*{List Scheduling Heuristics}
 
 Two of the most common online list scheduling algorithms are MaxMin and MinMin.
 Both of these algorithms use estimated minimum completion times (MCT) of each
@@ -75,7 +75,7 @@ computing the following:
   \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{MaxMin}
+\subsubsection*{MaxMin}
 first selects the task with the maximum of all the minimum estimated completion time.
 Then, that task is assigned to the worker which will give it the largest estimated
 completion
@@ -83,6 +83,6 @@ time out of all the possible workers it could have run on. This is to start long
 tasks early on slower resources such that smaller tasks can be executed faster
 on fast resources.
 
-\subsubsection{MinMin}
+\subsubsection*{MinMin}
 selects the task, worker pair with the fastest estimated completion time and
 assigns that task to that worker.

@@ -1,8 +1,56 @@
 \section{genetic algorithm}
 \label{sec:genetic_algorithm}
 
-\subsection{Chromosome Representation}
-\subsection{Fitness Evaluation}
-\subsection{Selection}
-\subsection{Recombination}
-\subsection{Mutation}
+\subsection*{Chromosome Representation}
+The chromosome representation of a schedule for this problem must be able to
+capture two things: the order in which files are sent from the master and
+the mapping of files to hosts. The order in which files are sent affect what
+tasks are able to start at what times. Additionally, the mapping of files to
+hosts dictates at which host a task can run. This information is encoded
+with the following genotype:
+
+$$[(f_1, h_1),(f_1,h_2),(f_2,h_1)...]$$
+
+This genotype is specific to the application and cyberinfrastructure specifications.
+For example, an application with input 10 files and a cyberinfrastructure with 10 workers
+would yield a genotype with a 100 $(f,h)$ pairs. Because file transfers dictate
+where a task may be executed, we ignore task, worker mappings because this can
+ultimately be derived from file, worker mappings.
+
+\subsection*{Fitness Evaluation}
+The objective function is to minimize the application makespan (execution time),
+therefore individual fitness is based soley on the application makespan given
+its schedule. Ideally, it would be useful to execute this type of schedule
+on a real platform, however obtaining the resources to do so may not be
+possible for certain architectures (they may not exist or could very well be
+too expensive). For that reason, we use WRENCH simulations to emulate aribtrary
+applications and cyberinfrastructures. Given an individual's schedule as input
+to the simulation, we can evaluate its fitness by obtaining the application
+makespan using that schedule. The lower the application makespan, the higher
+the individual's fitness.
+
+\subsection*{Selection and Recombination}
+Selection is done by taking the top 50\% of the population. Through recombination,
+the remaining individuals are then replaced by offspring produced by the
+top 50\%. Because the objective function is to minimize application makespan,
+binary tournament selection is used twice to obtain two parents for crossover rather
+than fitness proportional selection. Crossover is done using the following method:
+Consider two parents $p1$, $p2$, the offspring $os$, a random crossover point $3$, and a schedule of
+length $5$.
+
+\begin{align}
+ p1 & = [\mathcolorbox{lime}{(f_1, h_1), (f_2, h_2), (f_3, h_2)}, (f_3, h_1), (f_4, h_1)] \nonumber \\
+ p2 & = [\mathcolorbox{orange}{(f_4, h_1}, (f_1, h_1),(f_3, h_2), \mathcolorbox{orange}{(f_3, h_1)}, (f_2, h_2)] \nonumber \\
+ os & = [\mathcolorbox{lime}{(f_1, h_1), (f_2, h_2), (f_3, h_2)}, \mathcolorbox{orange}{(f_4, h_1), (f_3, h_1)}] \nonumber
+\end{align}
+Using this method, we retain the order of the schedule for each parent in the offspring.
+
+\subsection*{Mutation}
+If an individual is selected for mutation, the mutation operator simply swaps
+two random file, worker mappings in the schedule. For example, say $p1$ from
+the previous example is mutated.
+
+\begin{align}
+ p1 & = [\mathcolorbox{lime}{(f_1, h_1)}, (f_2, h_2), (f_3, h_2), (f_3, h_1), \mathcolorbox{orange}{(f_4, h_1)}] \nonumber \\
+ p1\_new & = [\mathcolorbox{orange}{(f_4, h_1)}, (f_2, h_2), (f_3, h_2), (f_3, h_1),\mathcolorbox{lime}{(f_1, h_1)}] \nonumber
+\end{align}
