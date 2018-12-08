@@ -20,7 +20,7 @@ using the WRENCH API.
 Using the variation operators described in Section~\ref{sec:genetic_algorithm}, the GA itself is implemented in Python.
 Additionally, Python C++ bindings
 were developed to enable the GA to pass individuals into the
-WRENCH simulation for fitness evaluation. Parameters for GA used in the
+WRENCH simulation for fitness evaluation. Parameters for the GA used in the
 experiment is described below.
 \begin{table}[h]
 \begin{tabular*}{\hsize}{l@{\extracolsep{\fill}}llll}
@@ -51,10 +51,10 @@ makespan of 493.90 seconds. Both heuristics produced schedules that performed
 about twice as good as the best individual produced by the GA, shown in
 Figure~\ref{fig:results}. As the GA moved from generation to generation, it
 takes a longer period of time between generations for an improvement to be
-shown in the individual with the maximum fitness. It is also important to note
+shown in the individual with the maximum fitness (shown by the slope of then blue line). It is also important to note
 that when the population as a whole begins to converge onto the hightest fit
 individual, there are some noticeable improvements in the hightest fit
-individual. This can be seen around generations 20, 70, and 135. An implication
+individual in generations that immediately follow. This can be seen around generations 20, 70, and 135. An implication
 of this could be such that if the GA ran for more than 150 generations, we
 would likely witness the population fitness converge onto where MaxMin and MinMin
 currently stand.

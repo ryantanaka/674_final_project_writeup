@@ -46,11 +46,13 @@ length $5$.
 The idea behind this method of crossover has been used in the development of
 genetic algorithms for scheduling tasks on a multiprocessor machines \cite{wu-incremental-genetic-04}
 where task ordering must be considered and therefore has been adopted here.
+By using this method of crossover, we retain the order of file, worker
+mappings for both of the parents in the offpsring.
 
 \subsection*{Mutation}
 If an individual is selected for mutation, the mutation operator simply swaps
 two random file, worker mappings in the schedule. For example, say $p1$ from
-the previous example is mutated.
+the previous example is mutated. The result is $p1\_new$.
 
 \begin{align}
  p1 & = [\mathcolorbox{lime}{(f_1, h_1)}, (f_2, h_2), (f_3, h_2), (f_3, h_1), \mathcolorbox{orange}{(f_4, h_1)}] \nonumber \\

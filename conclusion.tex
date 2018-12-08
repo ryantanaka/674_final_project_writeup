@@ -21,4 +21,22 @@ If the length of the genotype is $N$, then we end up with a search space
 that is $N!$. Thus scaling GAs for larger problems similar to this have
 been pointed out to be a challenge \cite{wu-incremental-genetic-04}. The search
 space in this study is $500!$ and the GA came close to the heuristics after
-only 30000 fitness evaluations, a minute portion of the total search space.
+only 30000 fitness evaluations, a minute portion of the total search space,
+suggesting that this could be a viable approach for smaller problems. Scaling
+aside, another issue with the GA is that it produces a static schedule. Static
+schedules do not account for things such as network or host failures and so
+online heuristics such as the ones tested here are more adaptable to real
+world systems.
+
+To further explore the viability of this GA and its affectiveness on a range
+of application types and infrastructures, it will be useful to test a number
+of different application configurations. For example, one that is data intensive
+versus compute intensive. Furthermore, the topology of the bipartite application
+graph can take many different forms and so those must be tested as well.
+In addition, improvement can be made with the chromosome representation
+to decrease the search space size as some file, host mappings contribute
+nothing to the application makespan.
+
+In conclusion, this GA could be useful for smaller problems, but the
+current set of heuristics available provide simple, easy to implement
+methods of achieving "close to optimal" performance.  
