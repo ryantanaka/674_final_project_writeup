@@ -1,2 +1,24 @@
 \section{conclusion}
 \label{sec:conclusion}
+Based on the results in this study, we can conclude that MinMin and MaxMin
+may perform well when given random applications and master worker
+infrastructures. Additionally, given enough iterations, the GA could
+produce a schedule that performs just as well, or better than these
+list scheduling heuristics. In practice, online and offine heuristics
+generally aren't compared, however in the case of scheduling parameter
+sweep applications, this can be okay as real world applications may run
+for days or months while the evolutionary algorithm may run for a fraction
+of that time thanks to simulation.
+
+Both the GA and the heuristics have their advantages and disadvangtages. First,
+the genotype representation for this specific problem scales in the size of
+the number of files used in the application along with the number of worker
+nodes. Real world parameter sweep applications have a number of files and tasks
+orders of magnitude greater than the number of worker nodes available. Using
+this specific GA in a real world scenario requires a genotype representation
+that could be thousands of times larger than what was used in this study.
+If the length of the genotype is $N$, then we end up with a search space
+that is $N!$. Thus scaling GAs for larger problems similar to this have
+been pointed out to be a challenge \cite{wu-incremental-genetic-04}. The search
+space in this study is $500!$ and the GA came close to the heuristics after
+only 30000 fitness evaluations, a minute portion of the total search space.

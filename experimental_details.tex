@@ -11,26 +11,50 @@ generated. Each worker has a compute speed ranging from 1 to 1000 flops per seco
 and the link between the master and each worker ranges from 1 to 1000 megabytes
 per second.
 
-When executing the genetic algorithm and both heuristics, the same parameter
+When executing the GA and both heuristics, the same parameter
 sweep application and master worker infrastructure is used. The scheduling
-logic for both the genetic algorithm and the heuristics is implemented in C++
+logic for both the GA and the heuristics is implemented in C++
 using the WRENCH API.
 
 \subsection*{Genetic Algorithm}
-The genetic algorithm itself is implemented in Python and bindings to C++
-were developed such that the genetic algorithm may pass individuals into the
-WRENCH simulation for fitness evaluation.
-
+Using the variation operators described in Section~\ref{sec:genetic_algorithm}, the GA itself is implemented in Python.
+Additionally, Python C++ bindings
+were developed to enable the GA to pass individuals into the
+WRENCH simulation for fitness evaluation. Parameters for GA used in the
+experiment is described below.
 \begin{table}[h]
-  \begin{center}
-\begin{tabular}{lllll}
-\multicolumn{5}{c}{\textbf{GA Parameters}}      \\
-\midrule
-generations       & \multicolumn{4}{l}{150}     \\
-population        & \multicolumn{4}{l}{200}     \\
-elitism           & \multicolumn{4}{l}{0.5} \\
-mutation rate     & \multicolumn{4}{l}{0.5} \\
-\bottomrule
-\end{tabular}
-\end{center}
+\begin{tabular*}{\hsize}{l@{\extracolsep{\fill}}llll}
+  \toprule
+  \multicolumn{5}{c}{\textbf{GA Parameters}}      \\
+  \midrule
+  population size:    & 200 \\
+  elitism:            & 0.5 \\
+  parent selection:          & binary tournament \\
+  mutation rate:      & 0.5 \\
+  stopping condition: &150 generations \\
+  \bottomrule
+\end{tabular*}
 \end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=90mm, height=80mm]{figures/results.png}
+  \caption{Comparing results of the genetic algorithm against the MaxMin and MinMin heuristics.}
+  \label{fig:results}
+\end{figure}
+
+\subsection*{Results}
+After evolving over 150 generations, the GA produced an indivdidual with a
+max fitness (minimum makespan) of 919.221 seconds. MaxMin resulted in an
+application makespan of 493.90 seconds while MinMin resulted in an application
+makespan of 493.90 seconds. Both heuristics produced schedules that performed
+about twice as good as the best individual produced by the GA, shown in
+Figure~\ref{fig:results}. As the GA moved from generation to generation, it
+takes a longer period of time between generations for an improvement to be
+shown in the individual with the maximum fitness. It is also important to note
+that when the population as a whole begins to converge onto the hightest fit
+individual, there are some noticeable improvements in the hightest fit
+individual. This can be seen around generations 20, 70, and 135. An implication
+of this could be such that if the GA ran for more than 150 generations, we
+would likely witness the population fitness converge onto where MaxMin and MinMin
+currently stand.
