@@ -1,3 +1,5 @@
-Figure 1: parameter sweep dag 
+Figure 1: parameter sweep dag
 
-Figure 2: cyber infrastructure 
+Figure 2: cyber infrastructure
+
+Figure 3: 

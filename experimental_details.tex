@@ -1,2 +1,36 @@
 \section{experimental details}
 \label{sec:experimental_details}
+
+\subsection*{Parameter Sweep Application and Infrastructure}
+A parameter sweep application containing 50 files and 50 tasks is randomly
+generated. Connections between files and tasks are random. File sizes range from
+1 to 1000 megabytes and task computation requirements range from 1 to 1000 flops.
+
+The master worker infrastructure containing 10 workers is also randomly
+generated. Each worker has a compute speed ranging from 1 to 1000 flops per second
+and the link between the master and each worker ranges from 1 to 1000 megabytes
+per second.
+
+When executing the genetic algorithm and both heuristics, the same parameter
+sweep application and master worker infrastructure is used. The scheduling
+logic for both the genetic algorithm and the heuristics is implemented in C++
+using the WRENCH API.
+
+\subsection*{Genetic Algorithm}
+The genetic algorithm itself is implemented in Python and bindings to C++
+were developed such that the genetic algorithm may pass individuals into the
+WRENCH simulation for fitness evaluation.
+
+\begin{table}[h]
+  \begin{center}
+\begin{tabular}{lllll}
+\multicolumn{5}{c}{\textbf{GA Parameters}}      \\
+\midrule
+generations       & \multicolumn{4}{l}{150}     \\
+population        & \multicolumn{4}{l}{200}     \\
+elitism           & \multicolumn{4}{l}{0.5} \\
+mutation rate     & \multicolumn{4}{l}{0.5} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}

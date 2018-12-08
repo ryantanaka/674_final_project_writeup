@@ -43,7 +43,9 @@ length $5$.
  p2 & = [\mathcolorbox{orange}{(f_4, h_1}, (f_1, h_1),(f_3, h_2), \mathcolorbox{orange}{(f_3, h_1)}, (f_2, h_2)] \nonumber \\
  os & = [\mathcolorbox{lime}{(f_1, h_1), (f_2, h_2), (f_3, h_2)}, \mathcolorbox{orange}{(f_4, h_1), (f_3, h_1)}] \nonumber
 \end{align}
-Using this method, the order of the schedule for each parent is maintained in the offspring.
+The idea behind this method of crossover has been used in the development of
+genetic algorithms for scheduling tasks on a multiprocessor machines \cite{wu-incremental-genetic-04}
+where task ordering must be considered and therefore has been adopted here.
 
 \subsection*{Mutation}
 If an individual is selected for mutation, the mutation operator simply swaps
