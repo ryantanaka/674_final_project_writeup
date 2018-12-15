@@ -11,7 +11,7 @@ generated. Each worker has a compute speed ranging from 1 to 1000 flops per seco
 and the link between the master and each worker ranges from 1 to 1000 megabytes
 per second.
 
-When executing the GA and both heuristics, the same parameter
+When executing the GA and heuristics, the same parameter
 sweep application and master worker infrastructure is used. The scheduling
 logic for both the GA and the heuristics is implemented in C++
 using the WRENCH API.
@@ -36,18 +36,11 @@ experiment is described below.
 \end{tabular*}
 \end{table}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=90mm, height=80mm]{figures/results.png}
-  \caption{Comparing results of the genetic algorithm against the MaxMin and MinMin heuristics.}
-  \label{fig:results}
-\end{figure}
-
 \subsection*{Results}
 After evolving over 150 generations, the GA produced an indivdidual with a
-max fitness (minimum makespan) of 919.221 seconds. MaxMin resulted in an
-application makespan of 493.90 seconds while MinMin resulted in an application
-makespan of 493.90 seconds. Both heuristics produced schedules that performed
+max fitness (minimum makespan) of 919.221 seconds. Max-Min resulted in an
+application makespan of 493.90 seconds while Min-Min resulted in an application
+makespan of 494.90 seconds. Both heuristics produced schedules that performed
 about twice as good as the best individual produced by the GA, shown in
 Figure~\ref{fig:results}. As the GA moved from generation to generation, it
 takes a longer period of time between generations for an improvement to be
@@ -56,5 +49,11 @@ that when the population as a whole begins to converge onto the hightest fit
 individual, there are some noticeable improvements in the hightest fit
 individual in generations that immediately follow. This can be seen around generations 20, 70, and 135. An implication
 of this could be such that if the GA ran for more than 150 generations, we
-would likely witness the population fitness converge onto where MaxMin and MinMin
+would likely witness the population fitness converge onto where Max-Min and Min-Min
 currently stand.
+\begin{figure}[t!]
+  \centering
+  \includegraphics[width=90mm, height=80mm]{figures/results.png}
+  \caption{Comparing results of the genetic algorithm against the Max-Min and Min-Min heuristics.}
+  \label{fig:results}
+\end{figure}

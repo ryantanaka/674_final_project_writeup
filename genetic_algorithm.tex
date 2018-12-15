@@ -3,19 +3,28 @@
 
 \subsection*{Chromosome Representation}
 The chromosome representation of a schedule for this problem must be able to
-capture two things: the order in which files are sent from the master and
-the mapping of files to hosts. The order in which files are sent affect what
-tasks are able to start at what times. Additionally, the mapping of files to
-hosts dictates at which host a task can run. This information is encoded
-with the following genotype:
-
-$$[(f_1, h_1),(f_1,h_2),(f_2,h_1)...]$$
-
+capture two things: the mapping of files to hosts and the order in which files
+are sent from the master. The mapping of files to hosts dictates at which host(s)
+a task can run on. This mapping is described by the following relation which yields a set
+of $nk$ $(file, worker)$ mappings.
+\begin{align}
+  domain & = \set{f_j \given 1 \leq j \leq n} \nonumber \\
+  range  & = \set{w_i \given 1 \leq i \leq k} \nonumber
+\end{align}
+The order in which files are sent from the master affects when a task can
+start as no task may start on a host which does not yet have the file(s) it requires.
+Therefore, a list of $nk$ $(file, worker)$ mappings is used as the genotype such that the order
+of each mapping determines the order of file transfers.
 This genotype is specific to the application and cyberinfrastructure specifications.
-For example, an application with input 10 files and a cyberinfrastructure with 10 workers
-would yield a genotype with a 100 $(f,h)$ pairs. Because file transfers dictate
-where a task may be executed, we ignore task, worker mappings because this can
-ultimately be derived from file, worker mappings.
+For example, an application with 10 input files and a cyberinfrastructure with 10 workers
+would yield a genotype with a 100 $(file, worker)$ pairs. One possible instance of a genotype
+for this scenario may appear as follows:
+
+$$[(f_1, h_1),(f_1,h_2),(f_2,h_1),(f_{10}, h_3)...]$$
+
+Because file transfers dictate where a task may be executed, we ignore task,
+worker mappings because this can ultimately be derived from file, worker
+mappings (as well as from simulation the simulation data).
 
 \subsection*{Fitness Evaluation}
 The objective function is to minimize the application makespan (execution time),
@@ -29,15 +38,25 @@ to the simulation, we can evaluate its fitness by obtaining the application
 makespan using that schedule. The lower the application makespan, the higher
 the individual's fitness.
 
-\subsection*{Selection and Recombination}
-Selection is done by taking the top 50\% of the population. Through recombination,
-the remaining individuals are then replaced by offspring produced by the
-top 50\%. Because the objective function is to minimize application makespan,
-binary tournament selection is used twice to obtain two parents for crossover rather
-than fitness proportional selection. Crossover is done using the following method:
-Consider two parents $p1$, $p2$, the offspring $os$, a random crossover point $3$, and a schedule of
-length $5$.
+In many cases, the application will complete (all tasks have been executed) before
+all file transfers have completed. When evaluating an individual's fitness, the
+application makespan is determined by the time at which all tasks complete, and
+not the time at which all file transfers complete (every file worker mapping in the
+genotype has been processed) because the remaining file transfers contribute
+nothing to the application makespan.
 
+\subsection*{Selection and Recombination}
+Selection is done by taking the top 50\% of the population. Through
+recombination, the remaining individuals are then replaced by offspring produced
+by the top 50\%. Because the objective function is to minimize application
+makespan, binary tournament selection is used twice to obtain two parents for
+crossover rather than fitness proportional selection. Given a random cross over
+point $k$, recombination is done by taking the first $k$ ordered pairs in the
+first parent and copying them into the the first $k$ ordered pairs of the
+offspring. The remaining ordered pairs that the offspring is missing is copied
+from the second parent in the order that they appear there. For example,
+consider two parents $p1$, $p2$, the offspring $os$, a random crossover point
+$3$, and a schedule of length $5$.
 \begin{align}
  p1 & = [\mathcolorbox{lime}{(f_1, h_1), (f_2, h_2), (f_3, h_2)}, (f_3, h_1), (f_4, h_1)] \nonumber \\
  p2 & = [\mathcolorbox{orange}{(f_4, h_1}, (f_1, h_1),(f_3, h_2), \mathcolorbox{orange}{(f_3, h_1)}, (f_2, h_2)] \nonumber \\
@@ -51,7 +70,7 @@ mappings for both of the parents in the offpsring.
 
 \subsection*{Mutation}
 If an individual is selected for mutation, the mutation operator simply swaps
-two random file, worker mappings in the schedule. For example, say $p1$ from
+two random mappings in the schedule. For example, say $p1$ from
 the previous example is mutated. The result is $p1\_new$.
 
 \begin{align}

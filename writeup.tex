@@ -317,7 +317,16 @@
 \usepackage{soul}
 \usepackage{booktabs}
 \newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\usepackage{mathtools}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{eqparbox}
+\renewcommand\algorithmiccomment[1]{%
+  \hfill\#\ \eqparbox{COMMENT}{#1}%
+}
 
+
+\DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
 
 \begin{document}
 \setlength{\parskip}{0pt}
@@ -399,6 +408,7 @@ Email: ryant@hawaii.edu}
 \input{experimental_details}
 
 \input{conclusion}
+
 
 % For peer review papers, you can put extra information on the cover
 % page as needed:
@@ -579,7 +589,7 @@ Email: ryant@hawaii.edu}
 %\end{thebibliography}
 
 
-
+\input{appendix}
 
 % that's all folks
 \end{document}

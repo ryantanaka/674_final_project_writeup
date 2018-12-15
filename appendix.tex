@@ -1,0 +1,52 @@
+\onecolumn
+\appendix
+
+\begin{algorithm}[H]
+  \renewcommand{\thealgorithm}{}
+  \caption{Max-Min}
+  \begin{algorithmic}
+      \STATE $pending\_tasks = application.getTasks()$
+      \WHILE{$pending\_tasks.size \neq 0$}
+        \IF{$canScheduleTasks()$}
+          \STATE $ECTS = [|pending\_tasks|][|workers|]$\COMMENT{estimated completion times}
+          \FOR{$t \in pending\_tasks$}
+            \FOR{$w \in workers$}
+              \STATE $ect = estimate\_completion\_time(t, w)$
+              \STATE $ECTS[t][w] = ect$
+            \ENDFOR
+          \ENDFOR
+
+          \STATE $target\_task = \set{t \given \max\limits_{\forall t \in pending\_tasks} (\min\limits_{\forall w
+          \in workers}(ECT[t][w]))}$
+          \STATE $target\_worker = \set{w \given \max\limits_{\forall w \in workers}(ECT[target\_task][w])}$
+          \STATE $assign(target\_task, target\_worker)$
+
+        \ENDIF
+      \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \renewcommand{\thealgorithm}{}
+  \caption{Min-Min}
+  \begin{algorithmic}
+      \STATE $pending\_tasks = application.getTasks()$
+      \WHILE{$pending\_tasks.size \neq 0$}
+        \IF{$canScheduleTasks()$}
+          \STATE $ECTS = [|pending\_tasks|][|workers|]$\COMMENT{estimated completion times}
+          \FOR{$t \in pending\_tasks$}
+            \FOR{$w \in workers$}
+              \STATE $ect = estimate\_completion\_time(t, w)$
+              \STATE $ECTS[t][w] = ect$
+            \ENDFOR
+          \ENDFOR
+
+          \STATE $target\_task, = \set{t \given \min\limits_{\forall t \in pending\_tasks} (\min\limits_{\forall w
+          \in workers}(ECT[t][w]))}$
+          \STATE $target\_worker = \set{w \given \min\limits_{\forall w \in workers}(ECT[target\_task][w])}$
+          \STATE $assign(target\_task, target\_worker)$
+
+        \ENDIF
+      \ENDWHILE
+  \end{algorithmic}
+\end{algorithm}

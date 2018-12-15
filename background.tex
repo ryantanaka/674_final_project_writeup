@@ -65,30 +65,30 @@ over $l_1$ then instruct $w_1$ to execute $t$. The expected makespan of this
 particular application can be modeled by the following equation:
 $$ makespan_{expected} = \frac{\sum\limits_{f \in F}size(f)}{bw_1} + \frac{num\_flops(t)} {c_1} $$
 Modeling expected execution times is used by a number of scheduling heuristics
-including MaxMin and MinMin.
+including Max-Min and Min-Min.
 
 \subsection*{List Scheduling Heuristics}
 
-Two of the most common online list scheduling algorithms are MaxMin and MinMin.
+Two of the most common online list scheduling algorithms are Max-Min and Min-Min.
 Both of these algorithms use estimated minimum completion times (MCT) of each
 task to determine which set of files and tasks to map to what resource by
 computing the following:
 
 \begin{algorithm}[H]
+  \renewcommand{\thealgorithm}{}
   \caption{Estimate MCT}
   \begin{algorithmic}
-    \STATE $estimated\_completion\_times = \emptyset$
-    \STATE $tasks = pending\_tasks$
-    \FOR{$t \in tasks$}
+    \STATE $ECTS = [|pending\_tasks|][|workers|]$
+    \FOR{$t \in pending\_tasks$}
       \FOR{$w \in workers$}
         \STATE $ect = estimate\_completion\_time(t, w)$
-        \STATE $estimated\_completion\_times.push((t, w, ect))$
+        \STATE $ECTS[t][w] = ect$
       \ENDFOR
     \ENDFOR
   \end{algorithmic}
 \end{algorithm}
 
-\subsubsection*{MaxMin}
+\subsubsection*{Max-Min}
 first selects the task with the maximum of all the minimum estimated completion time.
 Then, that task is assigned to the worker which will give it the largest estimated
 completion
@@ -96,6 +96,6 @@ time out of all the possible workers it could have run on. This is to start long
 tasks early on slower resources such that smaller tasks can be executed faster
 on fast resources.
 
-\subsubsection*{MinMin}
+\subsubsection*{Min-Min}
 selects the task, worker pair with the fastest estimated completion time and
 assigns that task to that worker.
